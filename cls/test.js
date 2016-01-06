@@ -1,1 +1,1 @@
-WScript.ECHO('test中');
+WScript.ECHO('test完了');
