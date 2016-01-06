@@ -9,4 +9,4 @@ var cls = function(){
 
 var a = new cls()
 
-a.fnDo();
+a.fnDo();git

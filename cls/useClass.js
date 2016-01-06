@@ -146,7 +146,3 @@ var Apploader = function (){
   this.check = this.Check;
 
 }
-
-var a = new Apploader
-
-a.Script("js.js");
