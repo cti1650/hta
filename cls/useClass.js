@@ -1,7 +1,8 @@
 var TextReader = function( fileName ){
 
   //  ファイル関連の操作を提供するオブジェクトを取得
-  var fs = new ActiveXObject( "Scripting.FileSystemObject" );
+  var fs;
+  fs = new ActiveXObject( "Scripting.FileSystemObject" );
 
   //  オープンモード
   var FORREADING;    // 読み取り専用
