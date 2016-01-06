@@ -4,20 +4,30 @@ var TextReader = function( fileName ){
   var fs = new ActiveXObject( "Scripting.FileSystemObject" );
 
   //  オープンモード
-  var FORREADING      = 1;    // 読み取り専用
-  var FORWRITING      = 2;    // 書き込み専用
-  var FORAPPENDING    = 8;    // 追加書き込み
+  var FORREADING;    // 読み取り専用
+  var FORWRITING;    // 書き込み専用
+  var FORAPPENDING;  // 追加書き込み
+  
+  FORREADING      = 1;    // 読み取り専用
+  FORWRITING      = 2;    // 書き込み専用
+  FORAPPENDING    = 8;    // 追加書き込み
 
   //  開くファイルの形式
-  var TRISTATE_TRUE       = -1;   // Unicode
-  var TRISTATE_FALSE      =  0;   // ASCII
-  var TRISTATE_USEDEFAULT = -2;   // システムデフォルト
+  var TRISTATE_TRUE;         // Unicode
+  var TRISTATE_FALSE;        // ASCII
+  var TRISTATE_USEDEFAULT;   // システムデフォルト
+  
+  TRISTATE_TRUE       = -1;   // Unicode
+  TRISTATE_FALSE      =  0;   // ASCII
+  TRISTATE_USEDEFAULT = -2;   // システムデフォルト
 
-  var file = null;
+  var file;
+  file = null;
 
   this.Read = function(){
 
-                        var buf = "";
+                        var buf;
+                        buf = "";
 
                         //  ファイルを読み取り専用で開く
                         clsOpen( fileName, FORREADING );
@@ -25,18 +35,18 @@ var TextReader = function( fileName ){
                         try {
                             if(!file.AtEndOfStream){
                             	buf = file.ReadAll();
-			    } else {
-				buf = "";
-			    }
+			                      } else {
+				                      buf = "";
+			                      }
                         }
                         catch (e) {
                             buf = "error";
                         }
 
+                        clsClose();
+
                         //  ファイルから全ての文字データを読み込む
                         return buf;
-
-                        clsClose();
             };
 
   this.Write = function(text){
@@ -84,10 +94,14 @@ var TextReader = function( fileName ){
                         //  ファイルを読み取り専用で開く
                         clsOpen( fileName, FORREADING );
 
-                        //  ファイルから文字データを検索し該当する個数を取得する
-                        return (file.ReadAll().match(new RegExp(word, "g")) || []).length
+                        var buf;
+                        buf = (file.ReadAll().match(new RegExp(word, "g")) || []).length;
 
                         clsClose();
+
+                        //  ファイルから文字データを検索し該当する個数を取得する
+                        return buf
+
             };
 
   function clsOpen( name , mode ){
