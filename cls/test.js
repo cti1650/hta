@@ -1,0 +1,1 @@
+WScript.ECHO('test中');
