@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <HTA:APPLICATION
+        ID="oHTA" CAPTION="yes" CONTEXTMENU="yes" ICON="" NAVIGABLE="no"
+        SELECTION="yes" SYSMENU="yes" VERSION="0.0.1" WINDOWSTATE="normal" />
+    <title>WMI Execute</title>
+    <link rel="stylesheet" type="text/css" href="./tablestyle.css" />
+    <style type="text/css">
+        * {
+            font-family: 'MS Gothic',monospace;
+            font-size: 10pt;
+        }
+    </style>
+    <script type="text/javascript" src="./jquery.js" ></script>
+    <script type="text/javascript" src="./wmi_utils.js" ></script>
+    <script type="text/javascript">
+        // 初期処理
+        function init() {
+            // リサイズ
+            resize();
+            // ウィンドウのサイズ変更時にリサイズ
+            $(window).resize(resize);
+            // ボタン名設定
+            $("[data-name='execute']").text("Execute");
+            // ボタン押下時実行
+            $("[data-name='execute']").click(execute);
+        }
+        // リサイズ
+        function resize() {
+            // リサイズ
+            $("[data-name='result']").height(
+                $(window).innerHeight() - $("[data-name='head']").height() - 26);
+        }
+        // 実行（準備１）
+        function execute() {
+            // ボタン非活性
+            $("[data-name='execute']").attr("disabled", "disabled");
+            // クエリ部分非活性
+            $("[data-name='query']").attr("disabled", "disabled");
+            // ボタン名変更
+            $("[data-name='execute']").text("Search");
+            // 10ms後実行
+            setTimeout(execute2, 10);
+        }
+        // 実行（準備２）
+        function execute2() {
+            // クエリ取得
+            var query = $("[data-name='query']").val();
+            query = $.trim(query);
+            // クエリ存在チェック
+            if (query.length > 0) {
+                // 実行（メイン）
+                executeQuery(query);
+            }
+            // ボタン名変更
+            $("[data-name='execute']").text("Execute");
+            // クエリ部分活性
+            $("[data-name='query']").removeAttr("disabled");
+            // ボタン活性
+            $("[data-name='execute']").removeAttr("disabled");
+        }
+        // 実行（メイン）
+        function executeQuery(query) {
+            try {
+                // WMIプロパティ取得
+                var props = wmiProps(query);
+                // キー用変数
+                var keys = null;
+                // TABLEタグ生成
+                var table = $("<table>");
+                // テーブルスタイル設定
+                table.addClass("TableStyle7");
+                // プロパティ数分ループ
+                for (var i = 0; i < props.length; i++) {
+                    // プロパティ取得
+                    var prop = props[i];
+                    // キー存在チェック
+                    if (keys == null) {
+                        // 初期化
+                        keys = [];
+                        // 要素のキー取得
+                        for (key in prop) {
+                            keys.push(key);
+                        }
+                        // キーをソート
+                        keys.sort();
+                        // ヘッダ行生成
+                        var tr = $("<tr>");
+                        for (var j = 0; j < keys.length; j++) {
+                            tr.append($("<th>").text(keys[j]));
+                        }
+                        // ヘッダ行設定
+                        table.append(tr);
+                    }
+                    // データ部生成
+                    var tr = $("<tr>");
+                    for (var j = 0; j < keys.length; j++) {
+                        var td = $("<td>");
+                        td.attr("noWrap", true);
+                        td.attr("title", keys[j]);
+                        td.text("" + prop[keys[j]]);
+                        tr.append(td);
+                    }
+                    // データ部設定
+                    table.append(tr);
+                }
+                // テーブル設定部分初期化
+                $("[data-name='result']").empty();
+                // テーブル設定
+                $("[data-name='result']").append(table);
+            } catch (e) {
+                // エラーの場合
+                alert("" + e.message);
+            }
+        }
+        // 初期処理設定
+        $(init);
+    </script>
+</head>
+<body>
+    <div>
+        テスト
+    </div>
+    <div data-name="head">
+        
+        <input data-name="query" type="text" value="" size="50" /><button data-name="execute"></button>
+        <hr />
+    </div>
+    <div data-name="result" style="width: 100%; height: 100%; overflow: auto;"></div>
+</body>
+</html>

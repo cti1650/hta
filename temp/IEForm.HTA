@@ -1,0 +1,82 @@
+<html>
+  <head>
+    <title>入力フォーム</title>
+    <script language=""VBScript"">
+      Sub SetValue_OnClick()
+        filePath = ""C:\sample.xls""
+        On Error Resume Next
+        If sampleform.username.Value = """" Then
+          MsgBox ""名前が未入力です"", vbCritical
+        ElseIf sampleform.usernum.Value = """" Then
+          MsgBox ""番号が未入力です"", vbCritical
+        Else
+          With CreateObject(""Excel.Application"")
+            Set wb = .Workbooks.Open(filePath)
+            If wb Is Nothing Then
+              MsgBox filePath & "" ファイルを開けません"", vbCritical
+            ElseIf wb.ReadOnly Then
+              MsgBox filePath & "" ファイルは現在使用中です"", vbExclamation
+            Else
+              For Each ws In wb.Worksheets
+                For Each Rng In ws.Range(""C3:C27,H3:H27"").Areas
+                  Cnt = .WorksheetFunction.CountA(Rng)
+                  If Cnt < 25 Then
+                    With Rng.Cells(Cnt + 1)
+                      .Value = sampleform.username.Value
+                      .Offset(0, 1).Value = sampleform.usernum.Value
+                    End With
+                    .DisplayAlerts = False
+                    wb.Close True
+                    .Quit
+                    Set wb = Nothing
+                    MsgBox ""保存しました""
+                    Exit Sub
+                  End If
+                Next
+              Next
+            End If
+          End With
+        End If
+      End Sub
+ 
+ 
+ 
+      Sub Reset_OnClick()
+        sampleform.username.Value = """"
+        sampleform.usernum.Value = """"
+      End Sub
+    </script>
+  </head>
+  <body>
+    <center>
+    <h2>入力フォーマット</h2>
+      <Form name=""sampleform"">
+        <table width=""300"" cellpadding=""0"" align=center>
+          <tr>
+            <td align=""center"">
+            　名前
+            </td>
+            <td align=""center"">
+              番号
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input type=""text"" size=""30"" name=""username"" Value="""" >
+            </td>
+            <td>
+              <input type=""text"" size=""30"" name=""usernum"" Value="""" >
+            </td>
+          </tr>
+          <tr>
+            <td></td>
+            <td align=""center"">
+              <input type=""button"" name=""SetValue"" Value=""書込"">  
+              <input type=""Reset"" Value=""クリア"">
+            </td>
+          </tr>
+        </table>
+      </Form>
+    </center>
+  </body>
+</html>
