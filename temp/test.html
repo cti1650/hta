@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
+    <title>testSite</title>
+    <script type='text/javascript' src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script LANGUAGE="JavaScript">
+        function cmd() {
+            var obj = new ActiveXObject("WScript.Shell");
+            obj.Run("cmd.exe");
+        }
+    </script>
+</head>
+<body>
+    <script type='text/javascript'>
+        function btDo(mine){
+            if (mine.id=='testbt1') {
+                $('div[id="buf"]').html('実行済み');
+            } else {
+                if (mine.id=='testbt2'){
+                    $('div[id="buf"]').html('未実施');
+                }
+            }
+        }
+    </script>
+    
+    <form id='form1'>
+        <div>テスト作成</div>
+        <div>
+            <button type=button id='testbt1' onClick='btDo(this);'>実行</button>
+            <button type=button id='testbt2' onClick='btDo(this);'>戻す</button>
+            <button type=button id='testbt3' onClick='cmd();'>コマンド</button>
+        </div>
+        <div id='buf'>未実行</div>
+    </form>
+</body>
+</html>

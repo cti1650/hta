@@ -1,14 +1,13 @@
-<job id="IEsetup">
-   <script language="JScript" src="./opt/useClass.js"/>
+<job id="setup">
+   <script language="JScript" src="https://goo.gl/BrNXcd"/>
    <script language="JScript">
-      var a = new TextReader("./opt/test.txt");
+      var a = new TextReader("test.txt");
+      var WS = new allWindow();
 
-      WScript.ECHO(a.Re());
+      WS.pop(a.Re());
+      WS.pop(a.Cl().Wl("テスト中").Re());
+      WS.pop(a.Wl("テスト成功").Re());
+      WS.pop(a.Sw("テスト"));
 
-      WScript.ECHO(a.Cl().Wl("テスト中").Re());
-
-      WScript.ECHO(a.Wl("テスト成功").Re());
-
-      WScript.ECHO(a.Sw("テスト"));
    </script>
 </job>

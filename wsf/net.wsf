@@ -1,0 +1,8 @@
+<job id="IEsetup">
+   <script language="JScript" src="https://goo.gl/BrNXcd"/>
+   <script language="JScript">
+      var a = new TextReader("test.txt");
+      WScript.ECHO(a.Cl().Wl("テスト中").Re());
+      WScript.ECHO(a.Wl("テスト成功").Re());
+   </script>
+</job>
