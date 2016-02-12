@@ -22,28 +22,36 @@
         }
 
     </style>
-
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'></script>
     <script type="text/javascript" src="https://goo.gl/BrNXcd" ></script>
-
     <script type="text/javascript">
-    	function testDo(){
-    		var m = new my;
-			var a = m.TextReader("test.txt");
-			var t = m.allWindow();
-			document.getElementById("test").innerHTML=a.Cl().Wl("テスト中").Re();
-			t.say("テスト中");
-			document.getElementById("test").innerHTML=a.Wl("テスト成功").Re();
-		}
-      
+        window.resizeTo(400, 800)
+        var m = new my;
+		var a = m.TextReader("test.txt");
+		var t = m.allWindow();
+        $(function() {
+			$('div[id="test"]').html(a.Re());
+        });
     </script>
 </head>
 <body>
+    
+    <script type="text/javascript">
+    	function testDo(){
+			$('div[id="test"]').html(a.wl("<p>テスト中</p>").Re());
+		}
+		function ClDo(){
+			$('div[id="test"]').html(a.Cl().Re());
+		}
+    </script>
+    
     <div>
         ネットワーククラス実行
     </div>
     <div data-name="head">
         
         <button id="execute" onClick="testDo();">テスト実行</button>
+        <button id="doCl" onClick="ClDo();">クリア</button>
         <hr />
     </div>
     <div id="test">
